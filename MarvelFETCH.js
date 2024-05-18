@@ -31,7 +31,7 @@ async function buscarComics() {
       comics.forEach((comic, index) => {
         const item = document.createElement('div');
         item.classList.add('item-comic');
-        if (comic.thumbnail.path === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available') {
+        if (comic.thumbnail.path === 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available') {
           item.innerHTML = `
             <h3 class="comic-title">${comic.title}</h3>
             <img class="comic-image" src="https://e0.pxfuel.com/wallpapers/736/189/desktop-wallpaper-marvel-logo-vertical-marvel.jpg" alt="${comic.title}" />
@@ -54,7 +54,7 @@ async function buscarComics() {
           const menuLateral = document.getElementById('menu-lateral');
           menuLateral.classList.add('menu-lateral-abierto');
           document.getElementById('titulo-comic').innerHTML = comic.title;
-          if (comic.thumbnail.path === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available') {
+          if (comic.thumbnail.path === 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available') {
             document.getElementById('imagen-comic').src = 'https://e0.pxfuel.com/wallpapers/736/189/desktop-wallpaper-marvel-logo-vertical-marvel.jpg';
           } else {
           document.getElementById('imagen-comic').src = `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
