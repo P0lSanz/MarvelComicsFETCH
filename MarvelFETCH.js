@@ -31,7 +31,6 @@ async function buscarComics() {
       comics.forEach((comic, index) => {
         const item = document.createElement('div');
         item.classList.add('item-comic');
-      
         if (comic.thumbnail.path === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available') {
           item.innerHTML = `
             <h3 class="comic-title">${comic.title}</h3>
