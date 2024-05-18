@@ -44,13 +44,13 @@ async function buscarComics() {
         }
 
         item.addEventListener('click', async () => {
-          const respuesta = await promesas[index];
-          const personajes = respuesta.data.results;
-          const nombresPersonajes = personajes.map(personaje => personaje.name).join(', ');
+          const respuesta = await fetch(comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`);
+          const personajes = await respuesta.json();
+          const nombresPersonajes = personajes.data.results.map(personaje => personaje.name).join(', ');
           const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
           const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
           const creadores = await creadoresPromise;
-          const nombresCreadores = creadores.data.results.map(creador => `${creador.firstName} ${creador.lastName}`).join(', ');
+          const nombresCreadores = creadores.data.results.map(creador => creador.name).join(', ');
           const menuLateral = document.getElementById('menu-lateral');
           menuLateral.classList.add('menu-lateral-abierto');
           document.getElementById('titulo-comic').innerHTML = comic.title;
