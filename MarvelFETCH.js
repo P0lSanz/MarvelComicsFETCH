@@ -11,15 +11,15 @@ async function buscarComics() {
 
     if (data.code === 200) {
       const comics = data.data.results;
-      // const promesas = comics.map(comic => {
-      //   const personajesUrl = comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
-      //   const personajesPromise = fetch(personajesUrl).then(response => response.json());
+      const promesas = comics.map(comic => {
+        const personajesUrl = comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
+        const personajesPromise = fetch(personajesUrl).then(response => response.json());
         
-      //   const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
-      //   const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
-        
-      //   return Promise.all([personajesPromise, creadoresPromise]);
-      // });
+        const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
+        const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
+
+        return Promise.all([personajesPromise, creadoresPromise]);
+      });
       // const promesas2 = comics.map(comic => fetch(comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`));
       // const respuesta = await Promise.race(promesas);
       // const personajes = await respuesta.json();
@@ -44,13 +44,13 @@ async function buscarComics() {
         }
 
         item.addEventListener('click', async () => {
-          const respuesta = await fetch(comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`);
-          const personajes = await respuesta.json();
-          const nombresPersonajes = personajes.data.results.map(personaje => personaje.name).join(', ');
+          const respuesta = await promesas[index];
+          const personajes = respuesta.data.results;
+          const nombresPersonajes = personajes.map(personaje => personaje.name).join(', ');
           const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
           const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
           const creadores = await creadoresPromise;
-          const nombresCreadores = creadores.data.results.map(creador => creador.name).join(', ');
+          const nombresCreadores = creadores.data.results.map(creador => `${creador.firstName} ${creador.lastName}`).join(', ');
           const menuLateral = document.getElementById('menu-lateral');
           menuLateral.classList.add('menu-lateral-abierto');
           document.getElementById('titulo-comic').innerHTML = comic.title;
