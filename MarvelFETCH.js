@@ -11,15 +11,15 @@ async function buscarComics() {
 
     if (data.code === 200) {
       const comics = data.data.results;
-      const promesas = comics.map(comic => {
-        const personajesUrl = comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
-        const personajesPromise = fetch(personajesUrl).then(response => response.json());
+      // const promesas = comics.map(comic => {
+      //   const personajesUrl = comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
+      //   const personajesPromise = fetch(personajesUrl).then(response => response.json());
         
-        const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
-        const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
+      //   const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
+      //   const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
         
-        return Promise.race([personajesPromise, creadoresPromise]);
-      });
+      //   return Promise.all([personajesPromise, creadoresPromise]);
+      // });
       // const promesas2 = comics.map(comic => fetch(comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`));
       // const respuesta = await Promise.race(promesas);
       // const personajes = await respuesta.json();
