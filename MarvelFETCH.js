@@ -45,8 +45,8 @@ async function buscarComics() {
 
         item.addEventListener('click', async () => {
           const respuesta = await fetch(comic.characters.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`);
-          const personajes = respuesta.data.results;
-          const nombresPersonajes = personajes.map(personaje => personaje.name).join(', ');
+          const personajes = await respuesta.json();
+          const nombresPersonajes = personajes.data.results.map(personaje => personaje.name).join(', ');
           const creadoresUrl = comic.creators.collectionURI + `?ts=${ts}&apikey=${apiKey}&hash=${hash}`;
           const creadoresPromise = fetch(creadoresUrl).then(response => response.json());
           const creadores = await creadoresPromise;
