@@ -1,3 +1,4 @@
+// Función para buscar cómics
 async function buscarComics() {
   const apiKey = 'ff84a307bf8a1a1e7ad51f0ef7c44e8a';
   const ts = '1';
@@ -5,22 +6,24 @@ async function buscarComics() {
   const urlBase = 'https://gateway.marvel.com:443/v1/public/comics';
   const nombreSuperheroe = document.getElementById('superhero').value;
   const url = `${urlBase}?titleStartsWith=${nombreSuperheroe}&ts=${ts}&apikey=${apiKey}&hash=${hash}`;
+
   try {
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.code === 200) {
       const comics = data.data.results;
-
       const lista = document.createElement('div');
       lista.classList.add('lista-comics');
-      comics.forEach((comic, index) => {
+
+      comics.forEach((comic) => {
         const item = document.createElement('div');
         item.classList.add('item-comic');
+
         const imageUrl = (comic.thumbnail.path === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available')
           ? 'https://e0.pxfuel.com/wallpapers/736/189/desktop-wallpaper-marvel-logo-vertical-marvel.jpg'
           : `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
-        
+
         item.innerHTML = `
           <h3 class="comic-title">${comic.title}</h3>
           <img class="comic-image" src="${imageUrl}" alt="${comic.title}" />
@@ -50,8 +53,10 @@ async function buscarComics() {
             console.error('Failed to fetch additional comic information:', error);
           }
         });
+
         lista.appendChild(item);
       });
+
       document.getElementById('resultados').innerHTML = '';
       document.getElementById('resultados').appendChild(lista);
     } else {
@@ -63,7 +68,25 @@ async function buscarComics() {
   }
 }
 
+// Función para cerrar el menú lateral
 function cerrarMenu() {
   const menuLateral = document.getElementById('menu-lateral');
   menuLateral.classList.remove('menu-lateral-abierto');
 }
+
+// Función para manejar el evento de presionar una tecla en el input
+function handleKeyDown(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    buscarComics();
+  }
+}
+
+// Función para manejar el evento de entrada en el input
+function handleInput() {
+  buscarComics();
+}
+
+// Añadir event listeners al input
+document.getElementById('superhero').addEventListener('keydown', handleKeyDown);
+document.getElementById('superhero').addEventListener('input', handleInput);
